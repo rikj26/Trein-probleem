@@ -3,10 +3,20 @@ import random
 def random_traject(stations, connections): # stations: lijst met alle stations, connections: lijst met alle verbindingen
     current_station = random.choice(stations)
     traject = [current_station]
+    previous_connection = None
+
     while(len(traject) < 8):
-        random_connection = random.choice(get_posssible_connections(current_station, connections))
+        possible_connections = get_posssible_connections(current_station, connections)
+
+        if previous_connection and len(possible_connections) > 1: # Het moet niet mogelijk zijn om dezelfde connectie meteen terug te nemen
+            possible_connections.remove(previous_connection)
+
+        random_connection = random.choice(possible_connections)
         current_station = get_new_station(current_station, random_connection, stations)
+
         traject.append(current_station)
+        previous_connection = random_connection
+    
     return traject
 
 def get_posssible_connections(station, connections): # connections: lijst met alle connections
