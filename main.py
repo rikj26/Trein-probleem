@@ -1,13 +1,15 @@
-from classes import station, verbinding
+from classes import station, traject
 from algorithms import random
 import visualisatie
 
 if __name__ == "__main__":
-    station_test = station.laad_stations("data/StationsHolland.csv")
-    verbinding_test = verbinding.laad_verbindingen("data/ConnectiesHolland.csv")
+    stations_holland = station.laad_stations("data/StationsHolland.csv", "data/ConnectiesHolland.csv")
+    stations_nationaal = station.laad_stations("data/StationsNationaal.csv", "data/ConnectiesNationaal.csv")
 
-    random_algoritme = random.random_traject(station_test, verbinding_test)
-    for station in random_algoritme:
+    random_algoritme = random.random_traject(stations_nationaal, traject.Traject())
+    for station in random_algoritme.route:
         print(station.name)
 
-    visualisatie.visualisatie(random_algoritme, "data/kaarten/netherlands_.geojson")
+    print("The totale tijd is:", random_algoritme.total_time)
+
+    visualisatie.visualisatie(random_algoritme.route, "data/kaarten/netherlands_.geojson")
