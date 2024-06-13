@@ -1,38 +1,34 @@
 import random
 
-def random_traject(stations, connections): # stations: lijst met alle stations, connections: lijst met alle verbindingen
+def random_traject(stations, traject): # stations: lijst met alle objecten van stations
     current_station = random.choice(stations)
-    traject = [current_station]
-    previous_connection = None
+    traject.add_station(current_station)
+    previous_station = None
 
-    while(len(traject) < 8):
-        possible_connections = get_posssible_connections(current_station, connections)
+    while(len(traject.route) < 8):
+        possible_stations = list(current_station.connecties.keys())
 
-        if previous_connection and len(possible_connections) > 1: # Het moet niet mogelijk zijn om dezelfde connectie meteen terug te nemen
-            possible_connections.remove(previous_connection)
+        # Het moet niet mogelijk zijn om direct hetzelfde traject terug te nemen, behalve als dit de enige optie is.
+        if previous_station and len(possible_stations) > 1:
+            possible_stations.remove(previous_station)
 
-        random_connection = random.choice(possible_connections)
-        current_station = get_new_station(current_station, random_connection, stations)
+        next_station = random.choice(possible_stations)
+        while traject.total_time + current_station.connecties[next_station] > 120:
+            possible_stations.remove(next_station)
+            
+            # wanneer alle opties ervoor zorgen dat de tijd groter wordt 120, stuur dan het huidige traject
+            if not possible_stations:
+                return traject
+            
+            next_station = random.choice(possible_stations)
 
-        traject.append(current_station)
-        previous_connection = random_connection
+        previous_station = current_station.name
+        current_station = get_new_station(next_station, stations)
+        traject.add_station(current_station)
     
     return traject
 
-def get_posssible_connections(station, connections): # connections: lijst met alle connections
-    possible_connections = []
-    for connection in connections:
-        if connection.station1 == station.name or connection.station2 == station.name:
-            possible_connections.append(connection)
-    return possible_connections
-
-def get_new_station(station, connection, stations): # stations: lijst met alle stations
-    if station.name == connection.station1:
-        for elem in stations:
-            if elem.name == connection.station2:
-                return elem
-            
-    if station.name == connection.station2:
-        for elem in stations:
-            if elem.name == connection.station1:
-                return elem
+def get_new_station(new_station, stations): # new_station : string met stationsnaam, stations : lijst met alle objecten van stations
+    for station in stations:
+        if station.name == new_station:
+            return station
