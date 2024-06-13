@@ -1,5 +1,3 @@
-from classes import station, verbinding
-
 import geopandas as gpd
 import matplotlib.pyplot as plt
 from shapely.geometry import Point, LineString
