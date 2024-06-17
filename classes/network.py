@@ -8,6 +8,7 @@ class Network():
         self.stations = self.load_stations(station_file)
         self.connections = self.load_connections(connection_file)
         self.trajects = []
+        self.max_connections = len(self.connections)
 
     def load_stations(self, station_file):
         stations = {}
@@ -34,3 +35,15 @@ class Network():
 
     def add_traject(self, traject):
         self.trajects.append(traject)
+
+    def score(self):
+        used_connections = 0
+        Min = 0
+        for traject in self.trajects:
+            used_connections += (len(traject.route) - 1)
+            Min += traject.total_time
+
+        p = used_connections / self.max_connections
+        t = len(self.trajects)
+
+        return (p * 10000) - ((t * 100) + Min)
