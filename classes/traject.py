@@ -4,7 +4,13 @@ class Traject():
         self.total_time = 0
     
     def add_station(self, station):
-        if len(self.route) > 1:
-            self.total_time += self.route[-1].connecties[station.name]
-        
         self.route.append(station)
+    
+    def update_time(self, time):
+        self.total_time += time
+
+    def get_last_station(self):
+        if self.route:
+            return self.route[-1]
+        else:
+            return None
