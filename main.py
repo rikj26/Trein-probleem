@@ -6,6 +6,8 @@ if __name__ == "__main__":
     netwerk_holland = network.Network("data/StationsHolland.csv", "data/ConnectiesHolland.csv")
     netwerk_nationaal = network.Network("data/StationsNationaal.csv", "data/ConnectiesNationaal.csv")
     
-    random_algoritme = random.random_traject(netwerk_nationaal)
+    random_algoritme = random.random_traject(netwerk_holland)
 
-    visualisatie.visualisatie(random_algoritme, "data/kaarten/netherlands_.geojson")
+    visualisatie.visualisatie(random_algoritme.trajects, "data/kaarten/netherlands_.geojson")
+
+    print(random_algoritme.score())
