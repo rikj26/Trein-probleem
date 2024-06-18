@@ -1,6 +1,9 @@
 import random
+import copy
 
 def random_traject(network):
+    original_connections = copy.deepcopy(network.connections)
+    
     while(len(network.trajects) < 7 and len(network.connections) != 0):
         traject = network.create_traject()
         random_connection = random.choice(network.connections)
@@ -29,6 +32,8 @@ def random_traject(network):
             network.connections.remove(random_connection)
 
         network.add_traject(traject)
+
+    network.connections = original_connections
     return network.trajects
 
 def get_possible_connections(station, connections):
