@@ -36,6 +36,9 @@ class Network():
     def add_traject(self, traject):
         self.trajects.append(traject)
 
+    def clear_trajects(self):
+        self.trajects = []
+        
     def score(self):
         used_connections = 0
         Min = 0
