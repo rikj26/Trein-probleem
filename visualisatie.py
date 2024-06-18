@@ -32,3 +32,12 @@ def visualisatie(trajects, geo_file): # traject : lijst met stations
 
     plt.legend()
     plt.show()
+
+def histogram(scores, algorihtm_name, bins=10):
+    plt.figure(figsize=(10, 6))
+    plt.hist(scores, bins=bins, edgecolor='black', alpha=0.7)
+    plt.title('Histogram of ' + algorihtm_name + 'scores')
+    plt.xlabel('Score')
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.show()
