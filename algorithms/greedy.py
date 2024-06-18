@@ -1,4 +1,8 @@
+import copy
+
 def greedy_traject(network, max_trajects, max_time):
+    original_connections = copy.deepcopy(network.connections)
+    
     while(len(network.trajects) < max_trajects and len(network.connections) != 0):
         traject = network.create_traject()
         greedy_connection = network.connections[-1]
@@ -27,6 +31,8 @@ def greedy_traject(network, max_trajects, max_time):
             network.connections.remove(greedy_connection)
         
         network.add_traject(traject)
+
+    network.connections = original_connections
     return network
 
 def get_greedy_connection(station, connections):
