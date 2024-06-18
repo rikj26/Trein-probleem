@@ -49,4 +49,4 @@ class Network():
         p = used_connections / self.max_connections
         t = len(self.trajects)
 
-        return (p * 10000) - ((t * 100) + Min)
+        return round((p * 10000) - ((t * 100) + Min))
