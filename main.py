@@ -19,6 +19,9 @@ if __name__ == "__main__":
     hillclimber_trajects, hillclimber_score = hillclimber.hill_climber(netwerk_nationaal, max_time=120)
     visualisatie.visualisatie(hillclimber_trajects, "data/kaarten/netherlands_.geojson")
 
+    bfs_algoritme = bfs.bfs_traject(netwerk_nationaal, 7, 120)
+    visualisatie.visualisatie(bfs_algoritme.trajects, "data/kaarten/netherlands_.geojson")
+    
     # Scores
     random_scores = []
     for _ in range(100):
@@ -34,6 +37,14 @@ if __name__ == "__main__":
         hillclimber_scores.append(hillclimber_score)
     
     visualisatie.histogram(hillclimber_scores, 'hillclimber algorithm')
+
+bfs_scores = []
+    for _ in range(100):
+        test_bfs = bfs.bfs_traject(netwerk_nationaal, 7, 120)
+        bfs_scores.append(test_bfs.score())
+        test_bfs.clear_trajects()
+
+    visualisatie.histogram(bfs_scores, 'BFS Algorithm')
 
 
 
