@@ -6,6 +6,9 @@ def bfs_traject(network, max_trajects, max_time):
     while len(network.trajects) < max_trajects and len(network.connections) != 0:
         traject = network.create_traject()
         
+        if not network.connections:
+            break
+        
         start_connection = network.connections[0]
         queue = [(start_connection.time, [start_connection.station1, start_connection.station2])]
         visited = set()
@@ -20,7 +23,9 @@ def bfs_traject(network, max_trajects, max_time):
             if current_time > max_time:
                 continue
             
-            for connection in network.connections[:]:
+            possible_connections = get_possible_connections(current_station, network.connections)
+            
+            for connection in possible_connections:
                 if current_station.name == connection.station1.name and current_time + connection.time <= max_time:
                     new_path = path + [connection.station2]
                     if (connection.station1.name, connection.station2.name) not in visited:
@@ -45,3 +50,10 @@ def bfs_traject(network, max_trajects, max_time):
     network.connections = original_connections
 
     return network
+
+def get_possible_connections(station, connections):
+    possible_connections = []
+    for connection in connections:
+        if station.name == connection.station1.name or station.name == connection.station2.name:
+            possible_connections.append(connection)
+    return possible_connections
