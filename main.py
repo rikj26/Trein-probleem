@@ -1,5 +1,5 @@
 from classes import network
-from algorithms import random, greedy, hillclimber
+from algorithms import random, greedy, hillclimber, bfs
 import visualisatie
 import matplotlib.pyplot as plt
 
