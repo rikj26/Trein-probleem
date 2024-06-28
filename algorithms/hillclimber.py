@@ -1,6 +1,49 @@
 import random
 import copy
 
+# Alles binnen de class heb ik geschreven
+class Hillclimber:
+    def __init__(self, network, max_trajects, max_time):
+        self.network = copy.deepcopy(network)
+        self.max_trajects = max_trajects
+        self.max_time = max_time
+    
+    def hillclimber(self):
+        best_network = None
+        best_score = 0
+
+        current_network = copy.deepcopy(self.network)
+
+        while True:
+            current_network = self.get_next_state(current_network)
+            current_score = current_network.score()
+
+            if current_score > best_score:
+                best_network = current_network
+                best_score = current_score
+            
+            if best_score == 10000 or current_score == best_score:
+                break
+        
+        return best_network
+    
+    def get_next_state(self, current_network):
+        new_network = copy.deepcopy(current_network)
+
+        if len(new_network.trajects) < self.max_trajects and len(new_network.connections) > 0:
+            traject = new_network.create_traject()
+            random_connection = random.choice(new_network.connections)
+            new_network.remove(random_connection)
+
+            traject.add_station(random_connection.station1)
+            traject.add_station(random_connection.station2)
+            traject.update_time(random_connection.time)
+            traject.add_covered_connection(random_connection)
+            
+            new_network.trajects.append(traject)
+        
+        return new_network
+
 def initial_solution(network, max_time):
     original_connections = copy.deepcopy(network.connections)
     trajects = []
